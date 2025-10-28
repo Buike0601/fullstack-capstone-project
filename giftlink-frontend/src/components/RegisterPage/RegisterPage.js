@@ -34,8 +34,8 @@ function RegisterPage() {
                                 onChange={(e) => setFirstName(e.target.value)}
                                 />
                             </div>
-                            <div className="mb-4">
 
+                            <div className="mb-4">
                                 <label htmlFor="lastName" className="form label"> LastName</label>
                                     <input
                                         id="lastName"
@@ -46,8 +46,8 @@ function RegisterPage() {
                                         onChange={(e) => setLastName(e.target.value)}
                                     />
                             </div>
-                            <div className="mb-4">
 
+                            <div className="mb-4">
                                 <label htmlFor="email" className="form label"> Email</label>
                                     <input
                                         id="email"
@@ -58,8 +58,8 @@ function RegisterPage() {
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                             </div>
-                            <div className="mb-4">
 
+                            <div className="mb-4">
                                 <label htmlFor="password" className="form label"> Password</label>
                                     <input
                                         id="password"
