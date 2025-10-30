@@ -123,6 +123,13 @@ router.put('/update', async (req, res) => {
         const collection = db.collection("users");
         // Task 5: find user credentials in database
         const existingUser = await collection.findOne({ email });
+
+        if (!existingUser) {
+            logger.error('User not found');
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        existingUser.firstName = req.body.name;
         existingUser.updatedAt = new Date();
         // Task 6: update user credentials in database
         const updatedUser = await collection.findOneAndUpdate(
@@ -136,7 +143,10 @@ router.put('/update', async (req, res) => {
                 id: updatedUser._id.toString(),
             },
         };
+
         const authtoken = jwt.sign(payload, JWT_SECRET);
+        logger.info('User updated successfully');
+        
         res.json({ authtoken });
     } catch (e) {
         return res.status(500).send("Internal server error");
