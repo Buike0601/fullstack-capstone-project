@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
             let result = await bcryptjs.compare(req.body.password, theUser.password)
             if (!result) {
                 logger.error('Passwords do not match');
-                return res.status(404).json({ error: 'Wrong pasword' });
+                return res.status(404).json({ error: 'Wrong password' });
             }
             // Task 6: Create JWT authentication if passwords match with user._id as payload
             let payload = {
