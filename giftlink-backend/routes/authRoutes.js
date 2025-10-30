@@ -18,15 +18,21 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/register', async (req, res) => {
-    //Step 2
     try {
         // Task 1: Connect to `giftsdb` in MongoDB through `connectToDatabase` in `db.js`
         const db = await connectToDatabase();
+
         // Task 2: Access MongoDB collection
-        const collection = db.collection("gifts");
+        const collection = db.collection("users");
+        
         //Task 3: Check for existing email
         const existingEmail = await collection.findOne({ email: req.body.email });
 
+        if (existingEmail) {
+            logger.error('Email id already exists');
+            return res.status(400).json({ error: 'Email id already exists' });
+        }
+        
         const salt = await bcryptjs.genSalt(10);
         const hash = await bcryptjs.hash(req.body.password, salt);
         const email = req.body.email;
@@ -50,6 +56,7 @@ router.post('/register', async (req, res) => {
         logger.info('User registered successfully');
         res.json({ authtoken, email });
     } catch (e) {
+        logger.error(e);
         return res.status(500).send('Internal server error');
     }
 });
