@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
 
         // Task 2: Access MongoDB collection
         const collection = db.collection("users");
-        
+
         //Task 3: Check for existing email
         const existingEmail = await collection.findOne({ email: req.body.email });
 
@@ -32,11 +32,11 @@ router.post('/register', async (req, res) => {
             logger.error('Email id already exists');
             return res.status(400).json({ error: 'Email id already exists' });
         }
-        
+
         const salt = await bcryptjs.genSalt(10);
         const hash = await bcryptjs.hash(req.body.password, salt);
         const email = req.body.email;
-        
+
         //Task 4: Save user details in database
         const newUser = await collection.insertOne({
             email: req.body.email,
@@ -100,7 +100,46 @@ router.post('/login', async (req, res) => {
         }
     } catch (e) {
         logger.error(e);
-        return res.status(500).json({error: 'Internal server error', details: e.message });
+        return res.status(500).json({ error: 'Internal server error', details: e.message });
+    }
+});
+
+router.put('/update', async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        logger.error('Validation errors in update request', errors.array());
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        // Task 3: Check if `email` is present in the header and throw an appropriate error message if not present.
+        const email = req.headers.email;
+
+        if (!email) {
+            logger.error('Email not found in the request headers');
+            return res.status(400).json({ error: "Email not found in the request headers" });
+        }
+        // Task 4: Connect to MongoDB
+        const db = await connectToDatabase();
+        const collection = db.collection("users");
+        // Task 5: find user credentials in database
+        const existingUser = await collection.findOne({ email });
+        existingUser.updatedAt = new Date();
+        // Task 6: update user credentials in database
+        const updatedUser = await collection.findOneAndUpdate(
+            { email },
+            { $set: existingUser },
+            { returnDocument: 'after' }
+        );
+        // Task 7: create JWT authentication using secret key from .env file
+        const payload = {
+            user: {
+                id: updatedUser._id.toString(),
+            },
+        };
+        const authtoken = jwt.sign(payload, JWT_SECRET);
+        res.json({ authtoken });
+    } catch (e) {
+        return res.status(500).send("Internal server error");
     }
 });
 
