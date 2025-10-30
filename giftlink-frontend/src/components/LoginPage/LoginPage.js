@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { urlConfig } from '../../config';
 import { useAppContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ function LoginPage() {
     //insert code here to create useState hook variables for email, password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [wrongPass, setWrongPass] = useState('');
+    const [incorrect, setIncorrect] = useState('');
     const navigate = useNavigate();
     const bearerToken = sessionStorage.getItem('bearer-token');
     const { setIsLoggedIn } = useAppContext();
