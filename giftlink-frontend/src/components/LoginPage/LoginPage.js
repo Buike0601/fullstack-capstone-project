@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { urlConfig } from '../../config';
 import { useAppContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -18,7 +17,7 @@ function LoginPage() {
 
     useEffect(() => {
         if (sessionStorage.getItem('auth-token')) {
-            navigate('/app')
+            navigate("/app")
         }
     }, [navigate])
 
@@ -38,13 +37,13 @@ function LoginPage() {
         });
 
         const json = await res.json();
-        console.log('Json', json);
+        console.log("Json", json);
         if (json.authtoken) {
-            sessionStorage.setItem('auth-token', json.authtoken);
-            sessionStorage.setItem('name', json.userName);
-            sessionStorage.setItem('email', json.userEmail);
+            sessionStorage.setItem("auth-token", json.authtoken);
+            sessionStorage.setItem("name", json.userName);
+            sessionStorage.setItem("email", json.userEmail);
             setIsLoggedIn(true);
-            navigate('/app');
+            navigate("/app");
         } else {
             document.getElementById("email").value = "";
             document.getElementById("password").value = "";
@@ -89,7 +88,7 @@ function LoginPage() {
                         {/* insert code here to create a button that performs the `handleLogin` function on click */}
                         <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>Login</button>
                         <p className="mt-4 text-center">
-                            New here? <a href="/app/register" className="text-primary">Register Here</a>
+                            New here? <Link to="/app/register" className="text-primary">Register Here</Link>
                         </p>
 
                     </div>

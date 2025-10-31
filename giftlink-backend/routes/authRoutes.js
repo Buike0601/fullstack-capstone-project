@@ -58,7 +58,7 @@ router.post('/register', async (req, res) => {
         res.json({ authtoken, email });
     } catch (e) {
         logger.error(e);
-        return res.status(500).send('Internal server error');
+        return res.status(500).send('Internal server error: authRoutes post /register');
     }
 });
 
@@ -101,7 +101,7 @@ router.post('/login', async (req, res) => {
         }
     } catch (e) {
         logger.error(e);
-        return res.status(500).json({ error: 'Internal server error', details: e.message });
+        return res.status(500).json({ error: 'Internal server error: authRoutes post /login', details: e.message });
     }
 });
 
@@ -150,7 +150,7 @@ router.put('/update', async (req, res) => {
 
         res.json({ authtoken });
     } catch (e) {
-        return res.status(500).send("Internal server error");
+        return res.status(500).send("Internal server error: authRoutes put /update");
     }
 });
 

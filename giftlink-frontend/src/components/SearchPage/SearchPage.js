@@ -18,12 +18,12 @@ function SearchPage() {
         // fetch all products
         const fetchProducts = async () => {
             try {
-                let url = `${urlConfig.backendUrl}/api/gifts`
-                console.log(url)
+                let url = `${urlConfig.backendUrl}/api/gifts`;
+                console.log(url);
                 const response = await fetch(url);
                 if (!response.ok) {
                     //something went wrong
-                    throw new Error(`HTTP error; ${response.status}`)
+                    throw new Error(`HTTP error; ${response.status}`);
                 }
                 const data = await response.json();
                 setSearchResults(data);

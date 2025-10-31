@@ -1,5 +1,7 @@
-/*jshint esversion: 8 */import React, { useEffect, useState } from 'react';
+/*jshint esversion: 8 */
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { urlConfig } from '../../config';
 import './DetailsPage.css';
 
 function DetailsPage() {
@@ -13,7 +15,7 @@ function DetailsPage() {
         const authenticationToken = sessionStorage.getItem('auth-token');
         if (!authenticationToken) {
             // Task 1: Check for authentication and redirect
-            navigate('/app/login');
+            navigate("/app/login");
         }
 
         // get the gift to be rendered on the details page
@@ -38,7 +40,7 @@ function DetailsPage() {
         // Task 3: Scroll to top on component mount
         window.scrollTo(0, 0);
 
-    }, [productId]);
+    }, [productId, navigate]);
 
 
     const handleBackClick = () => {
@@ -91,7 +93,7 @@ function DetailsPage() {
                             <div className="no-image-available-large">No Image Available</div>
                         )}
                     </div>
-                    // Task 6: Display gift details
+                    {/* Task 6: Display gift details*/}
                     <p><strong>Category:</strong>
                         {gift.category}
                     </p>
@@ -112,12 +114,12 @@ function DetailsPage() {
             <div className="comments-section mt-4">
                 <h3 className="mb-3">Comments</h3>
                 {comments.map((comment, index) => (
-                <div key={index} className="card mb-3">
-                    <div className="card-body">
-                        <p className="comment-author"><strong>{comment.author}:</strong></p>
-                        <p className="comment-text">{comment.comment}</p>
+                    <div key={index} className="card mb-3">
+                        <div className="card-body">
+                            <p className="comment-author"><strong>{comment.author}:</strong></p>
+                            <p className="comment-text">{comment.comment}</p>
+                        </div>
                     </div>
-                </div>
                 ))}
             </div>
         </div >

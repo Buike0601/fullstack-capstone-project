@@ -30,7 +30,7 @@ const Profile = () => {
             if (name || authtoken) {
                 const storedUserDetails = {
                     name: name,
-                    email: email
+                    email: email,
                 };
 
                 setUserDetails(storedUserDetails);
